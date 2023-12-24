@@ -48,7 +48,7 @@ export default async function Page() {
                   <b>{format(new Date(item.created_at), "yyyy-MM-dd HH:mm")}</b>
                 </CardDescription>
               </CardHeader>
-              <CardContent>{item.id}</CardContent>
+              <CardContent></CardContent>
               <CardFooter>
                 <RedirectToBusinessUpdatePageButton
                   businessId={item.id}
