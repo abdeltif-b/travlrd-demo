@@ -3,6 +3,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { cookies } from "next/headers";
 import { LogoutForm } from "@/components/forms";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default async function Menu() {
   const cookieStore = cookies();
@@ -19,7 +20,11 @@ export default async function Menu() {
         <span className="ml-2 text-lg font-bold text-gray-800 dark:text-gray-100">travlrd-demo</span>
       </Link>
       <div>{session ? session.user.email : null}</div>
-      <div>{session ? <LogoutForm /> : null}</div>
+
+      <div className="flex gap-2">
+        {session ? <LogoutForm /> : null}
+        <ThemeToggle />
+      </div>
     </header>
   );
 }
