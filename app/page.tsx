@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { format } from "date-fns";
 import { redirect } from "next/navigation";
 import { RedirectToBusinessCreatePageButton, RedirectToBusinessUpdatePageButton } from "@/components/buttons";
+import { Database } from "@/types/supabase";
 
 export default async function Page() {
   const cookieStore = cookies();
@@ -13,6 +14,9 @@ export default async function Page() {
     data: { session },
   } = await supabase.auth.getSession();
 
+  type Business = Database["public"]["Tables"]["business"]["Row"];
+  type Profile = Database["public"]["Tables"]["profiles"]["Row"];
+  type NestedBusiness = Business & { profiles: Profile };
   const { data } = await supabase
     .from("business")
     .select(
@@ -26,7 +30,8 @@ export default async function Page() {
       )
       `
     )
-    .order("id", { ascending: false });
+    .order("id", { ascending: false })
+    .returns<NestedBusiness[]>();
   if (!session) redirect("/auth/login");
 
   return (
